@@ -32,21 +32,33 @@ public class OncallController {
     }
 
     private Calender generateCalender() {
-        String input = inputView.readStartMonthAndDay();
-        return CalenderParser.parseCalender(input);
+        while (true) {
+            try {
+                String input = inputView.readStartMonthAndDay();
+                return CalenderParser.parseCalender(input);
+            } catch (IllegalArgumentException e) {
+                outputView.printErrorMessage(e.getMessage());
+            }
+        }
     }
 
     private Week generateWeek(Calender calender) {
-        String inputWeekDays = inputView.readWeekDaysEmployee();
-        String inputWeekend = inputView.readWeekendEmployee();
+        while (true) {
+            try {
+                String inputWeekDays = inputView.readWeekDaysEmployee();
+                String inputWeekend = inputView.readWeekendEmployee();
 
-        List<Employee> parsedWeekDays = EmployeesParser.parseEmployees(inputWeekDays);
-        List<Employee> parsedWeekend = EmployeesParser.parseEmployees(inputWeekend);
+                List<Employee> parsedWeekDays = EmployeesParser.parseEmployees(inputWeekDays);
+                List<Employee> parsedWeekend = EmployeesParser.parseEmployees(inputWeekend);
 
-        Weekdays weekdays = new Weekdays(parsedWeekDays);
-        Weekend weekend = new Weekend(parsedWeekend);
+                Weekdays weekdays = new Weekdays(parsedWeekDays);
+                Weekend weekend = new Weekend(parsedWeekend);
 
-        EmployeesValidator.validateNoPairing(inputWeekDays, inputWeekend);
-        return new Week(weekdays, weekend, calender);
+                EmployeesValidator.validateNoPairing(inputWeekDays, inputWeekend);
+                return new Week(weekdays, weekend, calender);
+            } catch (IllegalArgumentException e) {
+                outputView.printErrorMessage(e.getMessage());
+            }
+        }
     }
 }

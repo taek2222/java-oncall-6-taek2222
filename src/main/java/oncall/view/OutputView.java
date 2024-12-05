@@ -11,6 +11,10 @@ public class OutputView {
         workerResponses.forEach(this::printWorker);
     }
 
+    public void printErrorMessage(String message) {
+        System.out.println(message);
+    }
+
     private void printWorker(WorkerResponse workerResponse) {
         System.out.printf("%d월 %d일 %s %s",
                 workerResponse.dateResponse().month(),
