@@ -20,6 +20,10 @@ public class Calender {
         return week.equals("토") || week.equals("일");
     }
 
+    public boolean isHoliday() {
+        return isPublicHoliday(date);
+    }
+
     public DateResponse createResponse() {
         return new DateResponse(
                 date.getMonthValue(),
@@ -37,7 +41,7 @@ public class Calender {
     }
 
     private String getDayOfTheWeekSuffix() {
-        if (isPublicHoliday(date) && !isWeekend())
+        if (isHoliday() && !isWeekend())
             return "(휴일)";
         return "";
     }

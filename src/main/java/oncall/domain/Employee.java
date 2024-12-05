@@ -19,6 +19,10 @@ public class Employee {
         );
     }
 
+    public boolean isSameNickname(Employee otherEmployee) {
+        return this.nickname.equals(otherEmployee.nickname);
+    }
+
     private void validateNickname(String nickname) {
         if (nickname.isBlank() || nickname.length() > 5) {
             throw new IllegalArgumentException(INVALID_INPUT.get());

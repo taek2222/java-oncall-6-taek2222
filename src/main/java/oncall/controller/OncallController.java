@@ -4,8 +4,7 @@ import java.util.List;
 import oncall.domain.Calender;
 import oncall.domain.Employee;
 import oncall.domain.Week;
-import oncall.domain.Weekdays;
-import oncall.domain.Weekend;
+import oncall.domain.Employees;
 import oncall.domain.dto.WorkersResponse;
 import oncall.global.util.CalenderParser;
 import oncall.global.util.EmployeesParser;
@@ -51,8 +50,8 @@ public class OncallController {
                 List<Employee> parsedWeekDays = EmployeesParser.parseEmployees(inputWeekDays);
                 List<Employee> parsedWeekend = EmployeesParser.parseEmployees(inputWeekend);
 
-                Weekdays weekdays = new Weekdays(parsedWeekDays);
-                Weekend weekend = new Weekend(parsedWeekend);
+                Employees weekdays = new Employees(parsedWeekDays);
+                Employees weekend = new Employees(parsedWeekend);
 
                 EmployeesValidator.validateNoPairing(inputWeekDays, inputWeekend);
                 return new Week(weekdays, weekend, calender);
