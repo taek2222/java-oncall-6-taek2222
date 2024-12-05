@@ -2,6 +2,7 @@ package oncall.domain;
 
 import static java.time.format.TextStyle.SHORT;
 import static java.util.Locale.KOREA;
+import static oncall.domain.PublicHoliday.isPublicHoliday;
 
 import java.time.LocalDate;
 import oncall.domain.dto.DateResponse;
@@ -23,7 +24,7 @@ public class Calender {
         return new DateResponse(
                 date.getMonthValue(),
                 date.getDayOfMonth(),
-                date.getDayOfWeek().getDisplayName(SHORT, KOREA)
+                date.getDayOfWeek().getDisplayName(SHORT, KOREA) + getDayOfTheWeekSuffix()
         );
     }
 
@@ -33,5 +34,11 @@ public class Calender {
 
     public void increaseDay() {
         date = date.plusDays(1);
+    }
+
+    private String getDayOfTheWeekSuffix() {
+        if (isPublicHoliday(date) && !isWeekend())
+            return "(휴일)";
+        return "";
     }
 }
