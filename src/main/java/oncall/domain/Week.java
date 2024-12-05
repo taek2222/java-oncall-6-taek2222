@@ -7,11 +7,12 @@ import oncall.domain.dto.WorkersResponse;
 
 public class Week {
 
-    private final Weekdays weekdays;
-    private final Weekend weekend;
+    private final Employees weekdays;
+    private final Employees weekend;
     private final Calender calender;
+    private Employee workedEmployee;
 
-    public Week(Weekdays weekdays, Weekend weekend, Calender calender) {
+    public Week(Employees weekdays, Employees weekend, Calender calender) {
         this.weekdays = weekdays;
         this.weekend = weekend;
         this.calender = calender;
@@ -20,10 +21,11 @@ public class Week {
     public WorkersResponse createResponse() {
         List<WorkerResponse> workerResponses = new ArrayList<>();
 
-        while(true) {
+        while (true) {
             workerResponses.add(createWorkerResponse());
-            if (calender.isLastDay())
+            if (calender.isLastDay()) {
                 return new WorkersResponse(workerResponses);
+            }
 
             calender.increaseDay();
         }
@@ -37,9 +39,14 @@ public class Week {
     }
 
     private Employee getOncallEmployee() {
-        if (calender.isWeekend()) {
-            return weekend.getNextEmployee();
+            if (calender.isWeekend() || calender.isHoliday()) {
+            workedEmployee = weekend.getNextEmployee(workedEmployee);
         }
-        return weekdays.getNextEmployee();
+
+        if (!calender.isWeekend() && !calender.isHoliday()) {
+            workedEmployee = weekdays.getNextEmployee(workedEmployee);
+        }
+
+        return workedEmployee;
     }
 }
