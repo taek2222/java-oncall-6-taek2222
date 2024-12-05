@@ -11,7 +11,16 @@ public class Weekdays {
     public Weekdays(List<Employee> employees) {
         EmployeesValidator.validateEmployees(employees);
         this.employees = employees;
+        this.turn = -1;
     }
 
+    public Employee getNextEmployee() {
+        turn++;
 
+        if (turn >= employees.size()) {
+            turn = 0;
+        }
+
+        return employees.get(turn);
+    }
 }
